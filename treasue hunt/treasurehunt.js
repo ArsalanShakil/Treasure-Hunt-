@@ -1,4 +1,3 @@
-
 var x = new Array(6);
       
 for (var i = 0; i < x.length; i++) {
@@ -10,7 +9,10 @@ for (var j = 0; j < 6; j++) {
     x[j][z] = "e"
   }
 }
-var monster_counter,treasure_counter,potion_counter,sword_counter;
+var monster_counter = 0;
+var treasure_counter = 0;
+var potion_counter = 0;
+var sword_counter = 0;
 
 const cells = document.querySelectorAll('.cell');
 const row_bounds = 6;
@@ -61,7 +63,6 @@ for (var monster = 0; monster < 3; monster++) {
   
   console.log('Random monster ' + monster + ' placement: [' + randomRow + ', ' + randomCol +  ']');
 
-  
   if ((x[randomRow][randomCol] == "e")) {
     x[randomRow][randomCol] = "m"
   } else {
@@ -86,6 +87,7 @@ for (var treasure = 0; treasure < 3; treasure++) {
   } else {
     var randomRow = Math.floor((Math.random() * 6) + 0);
     var randomCol = Math.floor((Math.random() * 8) + 0);
+    
     if (x[randomRow][randomCol] == "e") {
       x[randomRow][randomCol] = "t";
     }
@@ -109,7 +111,6 @@ function placePlayer() {
     x[randomRow][randomCol] = "Player"
     console.log('Random player placement: [' + randomRow + ', ' + randomCol +  ']');
 
-
     return [randomRow, randomCol]
   } else {
     console.log('>>>> Place player again <<<<');
@@ -118,60 +119,59 @@ function placePlayer() {
 }
 
 function updatePlayerLocation(e) {
-    // up arrow or 'u' letter
-    if (e.keyCode == '38'|| e.keyCode == '85') {
-        // up arrow
-      console.log('up pressed ');
-      
-      if (isMoveValid(player_position[0], 'up')) {
-        var old_player_position = player_position;
-        
-        // update player position
-        player_position = [player_position[0] - 1, player_position[1]];
-        
-        // update board
-        x = movePlayer(x, old_player_position, [player_position[0], player_position[1]]);
-      }
-    // down arrow or 'd' letter
-    } else if (e.keyCode == '40' || e.keyCode == '68') {
-       console.log('down pressed ');
-        // down arrow
-      if(isMoveValid(player_position[0], 'down')) {
-        var old_player_position = player_position;
-        
-        // update player position
-        player_position = [player_position[0] + 1, player_position[1]];
-        
-        // update board
-        x = movePlayer(x, old_player_position, [player_position[0], player_position[1]]);
-      }
-    } else if (e.keyCode == '37') {
-      console.log('left pressed ');
-       // left arrow
-      if(isMoveValid(player_position[1], 'left')) {
-        var old_player_position = player_position;
-        
-        // update player position
-        player_position = [player_position[0], player_position[1] - 1];
-        
-        // update board
-        x = movePlayer(x, old_player_position, [player_position[0], player_position[1]]);
-        
-      }
-    } else if (e.keyCode == '39') {
-    	console.log('right pressed ');
-       // right arrow
-       if(isMoveValid(player_position[1], 'right')) {
-        var old_player_position = player_position;
-        
-        // update player position
-        player_position = [player_position[0], player_position[1] + 1];
-        
-        // update board
-        x = movePlayer(x, old_player_position, [player_position[0], player_position[1]]);
-        
-      }
+  // up arrow or 'u' letter
+  if (e.keyCode == '38'|| e.keyCode == '85') {
+      // up arrow
+    console.log('up pressed ');
+
+    if (isMoveValid(player_position[0], 'up')) {
+      var old_player_position = player_position;
+
+      // update player position
+      player_position = [player_position[0] - 1, player_position[1]];
+
+      // update board
+      x = movePlayer(x, old_player_position, [player_position[0], player_position[1]]);
     }
+  // down arrow or 'd' letter
+  } else if (e.keyCode == '40' || e.keyCode == '68') {
+     console.log('down pressed ');
+      // down arrow
+    if(isMoveValid(player_position[0], 'down')) {
+      var old_player_position = player_position;
+
+      // update player position
+      player_position = [player_position[0] + 1, player_position[1]];
+
+      // update board
+      x = movePlayer(x, old_player_position, [player_position[0], player_position[1]]);
+    }
+  } else if (e.keyCode == '37') {
+    console.log('left pressed ');
+     // left arrow
+    if(isMoveValid(player_position[1], 'left')) {
+      var old_player_position = player_position;
+
+      // update player position
+      player_position = [player_position[0], player_position[1] - 1];
+
+      // update board
+      x = movePlayer(x, old_player_position, [player_position[0], player_position[1]]);
+
+    }
+  } else if (e.keyCode == '39') {
+      console.log('right pressed ');
+     // right arrow
+     if(isMoveValid(player_position[1], 'right')) {
+      var old_player_position = player_position;
+
+      // update player position
+      player_position = [player_position[0], player_position[1] + 1];
+
+      // update board
+      x = movePlayer(x, old_player_position, [player_position[0], player_position[1]]);
+    }
+  }
 }
       
 function isMoveValid(player_position, direction) {
@@ -180,7 +180,7 @@ function isMoveValid(player_position, direction) {
       console.log('valid');
       return true
     } else {
-      console.log('invalid');
+      console.log('Ouch! You bumped into a wall...');
       console.log(player_position);
       
       return false
@@ -190,7 +190,7 @@ function isMoveValid(player_position, direction) {
         console.log('valid');
         return true
     } else {
-        console.log('invalid');
+        console.log('Ouch! You bumped into a wall...');
       return false
     }
   } else if (direction == 'left' ) {
@@ -198,7 +198,7 @@ function isMoveValid(player_position, direction) {
       	console.log('valid');
       	return true
   	} else {
-      	console.log('invalid');
+      	console.log('Ouch! You bumped into a wall...');
       	console.log(player_position);
     	return false
   	}
@@ -207,7 +207,7 @@ function isMoveValid(player_position, direction) {
         console.log('valid');
         return true
     } else {
-        console.log('invalid');
+        console.log('Ouch! You bumped into a wall...');
       return false
 	}
   }
@@ -219,43 +219,44 @@ function movePlayer(board, old_player_position, new_player_position) {
   var new_row = new_player_position[0];
   var new_col = new_player_position[1];
   
-    if (board[new_row][new_col] == 'p') {
-    	console.log('moved to potion') 
-    	potion_counter = potion_counter + 1;
-    	console.log('number of potions' + potion_counter)
-    }
-    else if (board[new_row][new_col] == 's') {
-    	console.log('moved to sword') 
-    	sword_counter = sword_counter + 1;
-    	console.log('number of sword' + sword_counter)
+  if (board[new_row][new_col] == 'p') {
+    console.log('You acquired a potion!');
+    potion_counter = potion_counter + 1;
+  } else if (board[new_row][new_col] == 's') {
+    console.log('You acquired a sword!');
+    sword_counter = sword_counter + 1;
   } else if (board[new_row][new_col] == 'e') {
-    	console.log('moved to empty') 
+    console.log('This space is empty.');
   } else if (board[new_row][new_col] == 't') {
-    	console.log('moved to treasure')
-    	treasure_counter = treasure_counter +1;
-    	console.log('number of treasures collected' + treasure_counter)
-    	if (treasure_counter == 3) {
-    		console.log('game won')
-    		alert('game won, start over')
-    } 
+    console.log('You found some treasure!')
+    treasure_counter = treasure_counter +1;
   } else if (board[new_row][new_col] == 'm') {
-    console.log('moved to monster')
-    if(sword_counter>0){
-    	sword_counter--;
-    	console.log('swords left' + sword_counter)
-    }
-    else if(potion_counter > 0){
-    	potion_counter--;
-    	console.log('potions left' + potion_counter)
+    console.log('You encountered a monster (~_~メ)')
+    if(sword_counter > 0) {
+      sword_counter--;
+      console.log('You slayed it with your sword.')
+    } else if(potion_counter > 0) {
+      potion_counter--;
+      console.log('Ouch. You took damange but you used a potion to recover!');
     } else{
-    	console.log('GAME OVER')
-    	alert('GAME OVER, START AGAIN')
+      console.log('Oh no! (°◇°) Game Over...')
     }
-
-  board[old_row][old_col] = "e";
-  board[new_row][new_col] = "Player";
+  }
   
+  board[old_row][old_col] = 'e';
+  board[new_row][new_col] = 'Player';
+  
+  printScore();
+  
+  if (treasure_counter == 3) {
+    console.log('You Won!!');
+    alert('You Won!!');
+  } 
+
   console.log(board);
   return board
-	}
+}
+
+function printScore() {
+  console.log('Potions: ' + potion_counter + ' | Swords: ' + sword_counter + ' | Treasure: ' + treasure_counter );
 }
