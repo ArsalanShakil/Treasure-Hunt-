@@ -163,12 +163,22 @@ function updatePlayerLocation(e) {
 }
       
 function isMoveValid(player_position, direction) {
-  if (direction == 'up' || direction == 'down') {
-    if (player_position != 0 && player_position != (row_bounds - 1)) {
+  if (direction == 'up') {
+    if (player_position != 0) {
       console.log('valid');
       return true
     } else {
       console.log('invalid');
+      console.log(player_position);
+      
+      return false
+    }
+  } else if (direction == 'down') {
+    if (player_position != (row_bounds - 1)) {
+        console.log('valid');
+        return true
+    } else {
+        console.log('invalid');
       return false
     }
   } else if (direction == 'left' || direction == 'right') {
