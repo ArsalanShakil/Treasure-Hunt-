@@ -234,14 +234,3 @@ function movePlayer(board, old_player_position, new_player_position) {
   console.log(board);
   return board
 }
-
-
-
-
-
-
-
-
-
-
-
