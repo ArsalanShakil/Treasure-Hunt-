@@ -10,7 +10,8 @@ for (var j = 0; j < 6; j++) {
     x[j][z] = "e"
   }
 }
-      
+var monster_counter,treasure_counter,potion_counter,sword_counter;
+
 const cells = document.querySelectorAll('.cell');
 const row_bounds = 6;
 const column_bounds = 8;
@@ -126,10 +127,10 @@ function updatePlayerLocation(e) {
         var old_player_position = player_position;
         
         // update player position
-        player_position = [player_position[0] - 1, player_position[1]]
+        player_position = [player_position[0] - 1, player_position[1]];
         
         // update board
-        x = movePlayer(x, old_player_position, [player_position[0], player_position[1]])
+        x = movePlayer(x, old_player_position, [player_position[0], player_position[1]]);
       }
     // down arrow or 'd' letter
     } else if (e.keyCode == '40' || e.keyCode == '68') {
@@ -139,10 +140,10 @@ function updatePlayerLocation(e) {
         var old_player_position = player_position;
         
         // update player position
-        player_position = [player_position[0] + 1, player_position[1]]
+        player_position = [player_position[0] + 1, player_position[1]];
         
         // update board
-        x = movePlayer(x, old_player_position, [player_position[0], player_position[1]])
+        x = movePlayer(x, old_player_position, [player_position[0], player_position[1]]);
       }
     } else if (e.keyCode == '37') {
       console.log('left pressed ');
@@ -151,14 +152,25 @@ function updatePlayerLocation(e) {
         var old_player_position = player_position;
         
         // update player position
-        player_position = [player_position[1] - 1, player_position[2]]
+        player_position = [player_position[0], player_position[1] - 1];
         
         // update board
-        x = movePlayer(x, old_player_position, [player_position[1], player_position[2]])
+        x = movePlayer(x, old_player_position, [player_position[0], player_position[1]]);
         
       }
     } else if (e.keyCode == '39') {
+    	console.log('right pressed ');
        // right arrow
+       if(isMoveValid(player_position[1], 'right')) {
+        var old_player_position = player_position;
+        
+        // update player position
+        player_position = [player_position[0], player_position[1] + 1];
+        
+        // update board
+        x = movePlayer(x, old_player_position, [player_position[0], player_position[1]]);
+        
+      }
     }
 }
       
@@ -207,39 +219,43 @@ function movePlayer(board, old_player_position, new_player_position) {
   var new_row = new_player_position[0];
   var new_col = new_player_position[1];
   
-  if (board[new_row][new_col] == 'm') {
-    console.log('moved to monster') 
-    if (Sword > 0){
-      Sword--;
-      console.log('sword used and swords left' + Sword)
+    if (board[new_row][new_col] == 'p') {
+    	console.log('moved to potion') 
+    	potion_counter = potion_counter + 1;
+    	console.log('number of potions' + potion_counter)
     }
-    else if(Potion>0){
-      Potion--;
-      console.log('potion used and potions left' + Potion)
-    }
-    else{
-      console.log('game over')
-      alert('game over, start again');
-    }
-  } else if (board[new_row][new_col] == 'p') {
-    console.log('moved to potion') 
-    var Potion = Potion + 1;
-  } else if (board[new_row][new_col] == 's') {
-    console.log('moved to sword') 
-    var Sword = Sword + 1;
+    else if (board[new_row][new_col] == 's') {
+    	console.log('moved to sword') 
+    	sword_counter = sword_counter + 1;
+    	console.log('number of sword' + sword_counter)
   } else if (board[new_row][new_col] == 'e') {
-    console.log('moved to empty') 
+    	console.log('moved to empty') 
   } else if (board[new_row][new_col] == 't') {
-    console.log('moved to treasure')
-    var Treasure = Treasure + 1;
-    if (Treasure == 3){
-      console.log('game won')
+    	console.log('moved to treasure')
+    	treasure_counter = treasure_counter +1;
+    	console.log('number of treasures collected' + treasure_counter)
+    	if (treasure_counter == 3) {
+    		console.log('game won')
+    		alert('game won, start over')
     } 
-  }
+  } else if (board[new_row][new_col] == 'm') {
+    console.log('moved to monster')
+    if(sword_counter>0){
+    	sword_counter--;
+    	console.log('swords left' + sword_counter)
+    }
+    else if(potion_counter > 0){
+    	potion_counter--;
+    	console.log('potions left' + potion_counter)
+    } else{
+    	console.log('GAME OVER')
+    	alert('GAME OVER, START AGAIN')
+    }
 
   board[old_row][old_col] = "e";
   board[new_row][new_col] = "Player";
   
   console.log(board);
   return board
+	}
 }
