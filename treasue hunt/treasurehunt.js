@@ -181,17 +181,26 @@ function isMoveValid(player_position, direction) {
         console.log('invalid');
       return false
     }
-  } else if (direction == 'left' || direction == 'right') {
-       if (player_position != 0 && player_position != (column_bounds - 1)) {
-      console.log('valid');
-      return true
-    }
-  } else {
-      console.log('invalid');
-    return false
+  } else if (direction == 'left' ) {
+    if (player_position != 0 ) {
+      	console.log('valid');
+      	return true
+  	} else {
+      	console.log('invalid');
+      	console.log(player_position);
+    	return false
+  	}
+  } else if (direction == 'right') {
+    if (player_position != (column_bounds - 1)) {
+        console.log('valid');
+        return true
+    } else {
+        console.log('invalid');
+      return false
+	}
   }
 }
-      
+
 function movePlayer(board, old_player_position, new_player_position) {
   var old_row = old_player_position[0];
   var old_col = old_player_position[1];
