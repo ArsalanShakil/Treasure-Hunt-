@@ -3,16 +3,21 @@ var x = new Array(6);
 for (var i = 0; i < x.length; i++) {
   x[i] = new Array(8);
 }
-      
+
+placePlayer();
+
 for (var j = 0; j < 6; j++) {
   for (var z = 0; z < 8; z++) {
-    x[j][z] = "e"
+    if (x[j][z] != 'Player') {
+      x[j][z] = 'e';
+    }
   }
 }
 var monster_counter = 0;
 var treasure_counter = 0;
 var potion_counter = 0;
 var sword_counter = 0;
+
 
 const cells = document.querySelectorAll('.cell');
 const row_bounds = 6;
@@ -106,17 +111,11 @@ document.onkeydown = updatePlayerLocation;
 function placePlayer() {
   var randomRow = Math.floor((Math.random() * 6) + 0);
   var randomCol = Math.floor((Math.random() * 8) + 0);
-  
-  if ((x[randomRow][randomCol] == "e")) {
     x[randomRow][randomCol] = "Player"
     console.log('Random player placement: [' + randomRow + ', ' + randomCol +  ']');
-
     return [randomRow, randomCol]
-  } else {
-    console.log('>>>> Place player again <<<<');
-    placePlayer();
-  }
 }
+
 
 function updatePlayerLocation(e) {
   // up arrow or 'u' letter
@@ -181,6 +180,7 @@ function isMoveValid(player_position, direction) {
       return true
     } else {
       console.log('Ouch! You bumped into a wall...');
+      document.getElementById("demo").innerHTML = "Ouch! You bumped into a wall...";
       console.log(player_position);
       
       return false
@@ -191,6 +191,7 @@ function isMoveValid(player_position, direction) {
         return true
     } else {
         console.log('Ouch! You bumped into a wall...');
+        document.getElementById("demo").innerHTML = "Ouch! You bumped into a wall...";
       return false
     }
   } else if (direction == 'left' ) {
@@ -199,6 +200,7 @@ function isMoveValid(player_position, direction) {
       	return true
   	} else {
       	console.log('Ouch! You bumped into a wall...');
+      	document.getElementById("demo").innerHTML = "Ouch! You bumped into a wall...";
       	console.log(player_position);
     	return false
   	}
@@ -208,6 +210,7 @@ function isMoveValid(player_position, direction) {
         return true
     } else {
         console.log('Ouch! You bumped into a wall...');
+        document.getElementById("demo").innerHTML = "Ouch! You bumped into a wall...";
       return false
 	}
   }
@@ -221,25 +224,35 @@ function movePlayer(board, old_player_position, new_player_position) {
   
   if (board[new_row][new_col] == 'p') {
     console.log('You acquired a potion!');
+    document.getElementById("demo").innerHTML = "You acquired a potion";
     potion_counter = potion_counter + 1;
   } else if (board[new_row][new_col] == 's') {
     console.log('You acquired a sword!');
+    document.getElementById("demo").innerHTML = "You acquired a sword";
     sword_counter = sword_counter + 1;
   } else if (board[new_row][new_col] == 'e') {
     console.log('This space is empty.');
+    document.getElementById("demo").innerHTML = "This space is empty";
+    document.getElementById("demo1").innerHTML = "";
   } else if (board[new_row][new_col] == 't') {
     console.log('You found some treasure!')
+    document.getElementById("demo").innerHTML = "You found some treasure";
     treasure_counter = treasure_counter +1;
   } else if (board[new_row][new_col] == 'm') {
     console.log('You encountered a monster (~_~メ)')
+    document.getElementById("demo").innerHTML = "You encountered a monster";
     if(sword_counter > 0) {
       sword_counter--;
       console.log('You slayed it with your sword.')
+      document.getElementById("demo1").innerHTML = "You slayed it with your sword";
     } else if(potion_counter > 0) {
       potion_counter--;
       console.log('Ouch. You took damange but you used a potion to recover!');
+      document.getElementById("demo1").innerHTML = "Ouch. You took damange but you used a potion to recover!";
     } else{
       console.log('Oh no! (°◇°) Game Over...')
+      document.getElementById("demo1").innerHTML = "Oh no! (°◇°) Game Over...";
+
     }
   }
   
@@ -259,4 +272,6 @@ function movePlayer(board, old_player_position, new_player_position) {
 
 function printScore() {
   console.log('Potions: ' + potion_counter + ' | Swords: ' + sword_counter + ' | Treasure: ' + treasure_counter );
+  document.getElementById("demo2").innerHTML = 'Potions: ' + potion_counter + ' | Swords: ' + sword_counter + ' | Treasure: ' + treasure_counter ;
+
 }
