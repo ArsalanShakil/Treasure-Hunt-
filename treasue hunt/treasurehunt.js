@@ -3,10 +3,14 @@ var x = new Array(6);
 for (var i = 0; i < x.length; i++) {
   x[i] = new Array(8);
 }
-      
+
+placePlayer();
+
 for (var j = 0; j < 6; j++) {
   for (var z = 0; z < 8; z++) {
-    x[j][z] = "e"
+    if (x[j][z] != 'Player') {
+      x[j][z] = 'e';
+    }
   }
 }
 var monster_counter = 0;
@@ -107,17 +111,11 @@ document.onkeydown = updatePlayerLocation;
 function placePlayer() {
   var randomRow = Math.floor((Math.random() * 6) + 0);
   var randomCol = Math.floor((Math.random() * 8) + 0);
-  
-  if ((x[randomRow][randomCol] == "e")) {
     x[randomRow][randomCol] = "Player"
     console.log('Random player placement: [' + randomRow + ', ' + randomCol +  ']');
-
     return [randomRow, randomCol]
-  } else {
-    console.log('>>>> Place player again <<<<');
-    placePlayer();
-  }
 }
+
 
 function updatePlayerLocation(e) {
   // up arrow or 'u' letter
